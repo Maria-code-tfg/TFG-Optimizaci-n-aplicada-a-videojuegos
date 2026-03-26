@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from mapa import Cuadricula
-from Algoritmos import dijkstra, A_estrella
+from Algoritmos_estaticos import dijkstra, A_estrella
 
   
 def comparar_en_main():
