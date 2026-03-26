@@ -10,7 +10,7 @@ import numpy as np
 import time
 from DLite import DLite
 from mapa import Cuadricula
-from Algoritmos import A_estrella
+from Algoritmos_estaticos import A_estrella
 import matplotlib.pyplot as plt
 
 
