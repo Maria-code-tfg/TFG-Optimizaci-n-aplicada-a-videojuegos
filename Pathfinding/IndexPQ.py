@@ -41,11 +41,34 @@ class IndexPQ:
         return self.size() == 0
 
     def top(self):
+        """
+        Raises
+        ------
+        ValueError
+            SI la cola está vacía, no se puede eliminar la cima.
+
+        Returns
+        -------
+        La cima de la cola.
+
+        """
         if self.is_empty():
             raise ValueError("No se puede consultar el primero de una cola vacía.")
         return self.array[1]
 
     def pop(self):
+        """
+        Raises
+        ------
+        ValueError
+            Si la cola está vacía, no se puede eliminar la cima.
+
+        Returns
+        -------
+        top_elem : tipo de la cola
+            Es el elemento de la cima.
+
+        """
         if self.is_empty():
             raise ValueError("No se puede eliminar el primero de una cola vacía.")
         
@@ -67,6 +90,40 @@ class IndexPQ:
         if i == 0:
             raise ValueError("No se puede consultar la prioridad de un elemento no insertado.")
         return self.array[i]["prioridad"]
+
+    def remove(self, e):
+        """
+        Raises
+        ------
+        ValueError
+            Si el elemento no está en la cola, no se puede eliminar
+        
+        Elimina un elemento arbitrario de la cola de prioridad en O(log N).
+        """
+        i = self.posiciones.get(e, 0)
+        if i == 0:
+            raise ValueError("No se puede eliminar un elemento que no está en la cola.")
+
+        ultimo_idx = len(self.array) - 1
+        if i == ultimo_idx: #Si es el último elemento, solo hay que eliminarlo
+            self.array.pop()
+            self.posiciones.pop(e)
+
+        else:
+            # Intercambiamos el elemento a borrar con el último elemento del array
+            elemento_ultimo = self.array[ultimo_idx]["elem"]         
+            self.array[i], self.array[ultimo_idx] = self.array[ultimo_idx], self.array[i]
+            
+            #Actualizamos el diccionario de posiciones para el elemento movido
+            self.posiciones[elemento_ultimo] = i
+            
+            #Eliminamos el elemento que queríamos borrar (que ahora está al final)
+            self.array.pop()
+            del self.posiciones[e]
+            # El elemento que hemos movido a la posición 'i' podría ser más pequeño 
+            # que su padre (necesita flotar) o más grande que sus hijos (necesita hundirse).   
+            self._flotar(i) 
+            self._hundir(i)
 
     def _flotar(self, i):
         parmov = self.array[i]
