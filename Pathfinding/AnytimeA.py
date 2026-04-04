@@ -155,7 +155,6 @@ class AnytimeA():
         for s_next in self.mapa.vecinos(x, y):
             self.update_state(s_next)
         if recalcular:
-            self.epsilon += 0.2
             self.compute_shortest_path()
         
     def mover_inicio(self, nuevo_inicio, recalcular):
@@ -163,5 +162,4 @@ class AnytimeA():
         self.modificador += h
         self.inicio = nuevo_inicio
         if recalcular:
-            self.epsilon += 0.2
             self.compute_shortest_path()
