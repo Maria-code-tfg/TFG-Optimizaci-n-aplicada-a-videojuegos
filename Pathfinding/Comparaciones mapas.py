@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+Created on Sat Jun 13 20:43:24 2026
+
+@author: María
+"""
 
 import time
 import random
