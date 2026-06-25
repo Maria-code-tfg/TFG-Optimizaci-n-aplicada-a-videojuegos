@@ -1,12 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Script de comparación de algoritmos de búsqueda de caminos en entornos dinámicos.
-Incluye mapas con diferentes estructuras: espiral (meta en centro), aleatorio y líneas.
-Compara A* (estático), D* Lite y Anytime Dynamic A* con distintas tolerancias (epsilon)
-y límites de tiempo (t_max). Genera gráficas de tiempos de cómputo y longitudes de camino.
-Además, visualiza la evolución de los mapas a lo largo de los cambios y, al final,
-dibuja los caminos obtenidos por cada algoritmo sobre el mapa final.
-"""
 
 import time
 import random
@@ -14,16 +6,15 @@ import copy
 import matplotlib.pyplot as plt
 from collections import deque
 import numpy as np
-from matplotlib.ticker import MaxNLocator  # <-- NUEVO
+from matplotlib.ticker import MaxNLocator 
 
-# Importaciones de los módulos proporcionados
 from mapa import Cuadricula
 from AlgoritmosEstaticos import A_estrella
 from DLite import DLite
 from AnytimeA import AnytimeA
 
 
-# ---------- Funciones auxiliares ----------
+# Funciones auxiliares
 
 def asegurar_camino(mapa, inicio, fin):
     """
@@ -76,7 +67,6 @@ def asegurar_camino(mapa, inicio, fin):
 def generar_cambios(mapa, inicio, fin, num_cambios=20, seed=42):
     """
     Genera una lista de cambios consistentes en añadir o eliminar obstáculos.
-    No se mueve el inicio.
     """
     random.seed(seed)
     cambios = []
@@ -107,7 +97,7 @@ def generar_cambios(mapa, inicio, fin, num_cambios=20, seed=42):
     return cambios
 
 
-# ---------- Generadores de mapas ----------
+# Generadores de mapas
 
 def generar_mapa_aleatorio(ancho, alto, prob_obstaculo=0.2):
     mapa = []
@@ -183,7 +173,7 @@ def generar_mapa_espiral_centro(ancho, alto):
     return mapa
 
 
-# ---------- Visualización de la evolución del mapa ----------
+# Visualización de la evolución del mapa
 
 def dibujar_mapa(mapa, inicio, fin, titulo, ax=None, camino=None):
     """
@@ -218,7 +208,6 @@ def dibujar_mapa(mapa, inicio, fin, titulo, ax=None, camino=None):
 def visualizar_evolucion(mapa_inicial, cambios, inicio, fin, titulo_mapa, num_frames=6):
     """
     Muestra la evolución del mapa a lo largo de los cambios.
-    (Opcionalmente se puede dibujar el camino de A* en cada frame descomentando las líneas)
     """
     mapa_actual = copy.deepcopy(mapa_inicial)
     total_cambios = len(cambios)
@@ -242,10 +231,6 @@ def visualizar_evolucion(mapa_inicial, cambios, inicio, fin, titulo_mapa, num_fr
         for i in range(idx):
             c = cambios[i]
             mapa_temp[c['y']][c['x']] = float('inf') if c['es_obstaculo'] else 1
-        # Opcional: calcular y dibujar camino de A* en cada frame
-        # cuad = Cuadricula(mapa_temp)
-        # _, camino, _ = A_estrella(cuad, inicio, fin)
-        # dibujar_mapa(mapa_temp, inicio, fin, f'{titulo_mapa}\nCambio {idx}/{total_cambios}', ax, camino)
         dibujar_mapa(mapa_temp, inicio, fin, f'{titulo_mapa}\nCambio {idx}/{total_cambios}', ax, camino=None)
     
     plt.suptitle(f'Evolución del mapa: {titulo_mapa}', fontsize=14)
@@ -253,7 +238,7 @@ def visualizar_evolucion(mapa_inicial, cambios, inicio, fin, titulo_mapa, num_fr
     plt.show()
 
 
-# ---------- Visualización comparativa de caminos finales ----------
+# Visualización comparativa de caminos finales
 
 def visualizar_caminos_finales(mapa_final, inicio, fin, configs, titulo_mapa):
     """
@@ -368,7 +353,7 @@ def ejecutar_algoritmo(nombre, mapa_inicial, inicio, fin, cambios, **kwargs):
     return tiempos, longitudes
 
 
-# ---------- Experimento principal ----------
+# Experimento principal
 
 def experimento():
     # Parámetros generales
